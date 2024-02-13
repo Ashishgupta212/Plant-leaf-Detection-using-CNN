@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant leaf dectation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image:url('/static/pexels-quang-nguyen-vinh-2165688.jpg'); /* Add background image */
+            background-size: cover;
+            background-position: center;
+            color: #f6f0f0; /* Set text color */
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background color */
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 40px; /* Increase font size */
+        }
+        form {
+            text-align: center;
+        }
+        input[type="file"] {
+            display: none;
+            font-size: 40px;
+        }
+        .upload-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px 30px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 30px; /* Increase font size */
+        }
+        .upload-button:hover {
+            background-color: #45a049;
+        }
+        .upload-label {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 30px; /* Increase font size */
+        }
+        .prediction-result {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Upload Image</h1>
+        <form action="/predict" method="post" enctype="multipart/form-data">
+            <!-- Add label to display selected file name -->
+            <label for="file-upload" class="upload-label">Choose File</label>
+            <input id="file-upload" type="file" name="file" onchange="updateFileName(this)">
+            <span id="file-name-placeholder" style="display: block; margin-top: 10px;">No file chosen</span>
+            <button type="submit" class="upload-button">Predict</button>
+        </form>
+        {% if prediction %}
+        <div class="prediction-result">
+            <h2>Prediction Result:</h2>
+            <p>Class: {{ prediction.class }}</p>
+            <p>Confidence: {{ prediction.confidence }}</p>
+        </div>
+        {% endif %}
+    </div>
+    <script>
+        function updateFileName(input) {
+            // Get the file name from the input element
+            const fileName = input.files[0].name;
+            // Display the file name in the placeholder span
+            document.getElementById('file-name-placeholder').textContent = fileName;
+        }
+    </script>
+</body>
+</html>
